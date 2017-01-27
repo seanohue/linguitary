@@ -1,7 +1,7 @@
 'use strict';
 
-const Random = require('./random').Random;
-const _ = require('./helpers');
+const { Random } = require('rando-js');
+const _ = require('fnk');
 const util = require('util');
 const wrap = require('wrap-ansi');
 
