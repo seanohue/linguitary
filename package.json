@@ -1,0 +1,26 @@
+{
+  "name": "linguitary",
+  "version": "0.1.0",
+  "description": "A tool for creating scripted dialogue in games using ES6.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seanohue/linguitary.git"
+  },
+  "keywords": [
+    "dialogue",
+    "scripting",
+    "game",
+    "gamedev",
+    "es6"
+  ],
+  "author": "Sean O'Donohue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seanohue/linguitary/issues"
+  },
+  "homepage": "https://github.com/seanohue/linguitary#readme"
+}
