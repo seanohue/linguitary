@@ -1,69 +1,16 @@
 'use strict';
 
 const { Random } = require('rando-js');
-const _ = require('fnk');
-const util = require('util');
-const wrap = require('wrap-ansi');
+const _          = require('fnk');
+const wrap       = require('wrap-ansi');
 
+const { 
+        stripPunctuation, 
+        tokenizeSentence 
+      } = require('./utils');
 
-const getTopicWeight = (topic, name, sentence) => {
-  let points = 0;
-  util.log("TOPIC DISCUSSED IS ", name);
-  if (!topic.keywords) {
-    throw new ReferenceError('You must supply keywords for ' + name + '.');
-  }
+const { getPriorityTopic } = require('./prioritize');
 
-  const priority = typeof topic.priority === 'function' ?
-    topic.priority() :
-    topic.priority;
-
-  const foundEvery = topic.keywords.every ?
-   _.toArray(topic.keywords.every)
-    .every(str => sentence.includes(str)) :
-    false;
-
-  const foundSome = topic.keywords.some ?
-   _.toArray(topic.keywords.some)
-    .some(str => sentence.includes(str)) :
-    false;
-
-  const foundEach = topic.keywords.find ?
-   _.toArray(topic.keywords.find)
-    .reduce((sum, str) => sentence.includes(str) ? sum + 1 : sum, 0) :
-    0;
-
-  if (sentence.includes(name)) { points++; }
-
-  points += foundEvery ? 5 : 0;
-  points += foundSome  ? 2 : 0;
-  points += foundEach;
-  points += priority;
-
-  util.log("POINTS FOR WEIGHT: ", points);
-  return points;
-};
-
-const getPriorityTopic = (config, sentence) => {
-  const priority = { points: 0, topic: null };
-
-  for (let prop in config) {
-    const topic = config[prop];
-    if (_.has(['npc', 'player', 'prerequisite'], prop)) { continue; }
-    if (topic.prerequisite && !topic.prerequisite()) { continue; }
-    const topicWeight = getTopicWeight(topic, prop, sentence);
-
-    if (topicWeight > priority.points) {
-      priority.points = topicWeight;
-      priority.topic  = topic;
-    }
-  }
-
-  return priority.topic;
-};
-
-// Turns a string into an array of tokens (words)
-const stripPunctuation = sentence => sentence.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
-const tokenizeSentence = sentence => stripPunctuation(sentence).split(' ');
 
 const handleInteraction = (config, sentence, broadcaster) => {
   const npc    = config.npc;
@@ -163,7 +110,7 @@ exports.Dialogue = {
   simpleDialogueHandler, randomDialogueHandler, timedDialogueHandler,
 
   /* Utilities and main handler */
-  stripPunctuation,      getPriorityTopic,      handleInteraction,
+  getPriorityTopic,      handleInteraction,
 
   /* Constants */
   Priority,              Keywords,              Types
