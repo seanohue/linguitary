@@ -44,4 +44,4 @@ const notUsedToPrioritize = prop =>
 const failsPrerequisite = topic => 
   topic.prerequisite && !topic.prerequisite();
 
-module.exports = { getPriorityTopic; }
+module.exports = { getPriorityTopic };
